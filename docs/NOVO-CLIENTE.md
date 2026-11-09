@@ -49,10 +49,10 @@ npm install
 
 ## 1. Criar a pasta do cliente
 
-Copie a pasta `clientes/forja` e cole como `clientes/forjaemplo-2`:
+Copie a pasta `clientes/forja` e cole como `clientes/studio-norte`:
 
 ```powershell
-Copy-Item -Recurse clientes/forja clientes/forjaemplo-2
+Copy-Item -Recurse clientes/forja clientes/studio-norte
 ```
 
 O **nome da pasta é o id do cliente**, usado em todos os comandos.
@@ -73,7 +73,7 @@ clientes/
 
 ## 2. Logo e ícone
 
-Coloque os arquivos do cliente dentro de `clientes/forjaemplo-2/` e apague os da Forja Academia que não forem usados.
+Coloque os arquivos do cliente dentro de `clientes/studio-norte/` e apague os da Forja Academia que não forem usados.
 
 | Arquivo | Onde aparece | Requisitos |
 | --- | --- | --- |
@@ -87,7 +87,7 @@ Coloque os arquivos do cliente dentro de `clientes/forjaemplo-2/` e apague os da
 
 ## 3. Editar o `cliente.json`
 
-Abra `clientes/forjaemplo-2/cliente.json` no VS Code:
+Abra `clientes/studio-norte/cliente.json` no VS Code:
 
 ```json
 {
@@ -162,7 +162,7 @@ ok  forja        Forja Painel (br.com.forja.painel, forja.db)
 Se houver erro, a mensagem diz o campo e o motivo, por exemplo:
 
 ```text
-clientes/forjaemplo-2/cliente.json inválido:
+clientes/studio-norte/cliente.json inválido:
   - "executavel": nome do .exe sem espaços nem acentos (recebido: "Studio Norte Painel")
 ```
 

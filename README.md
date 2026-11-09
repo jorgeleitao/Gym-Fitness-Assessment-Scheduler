@@ -1,7 +1,12 @@
-# Painel de Avaliações
+# Painel de Avaliações: documentação técnica
 
 Sistema para academias agendarem as avaliações físicas dos alunos, mandarem lembretes pelo
-WhatsApp e acompanharem quem compareceu, faltou ou remarcou. Funciona de dois jeitos, com o mesmo código:
+WhatsApp e acompanharem quem compareceu, faltou ou remarcou.
+
+> **Este README é para quem desenvolve:** arquitetura, instalação, build, API, regras, segurança e testes.
+> Para usar o painel no dia a dia (recepção e professores), veja o **[Guia do usuário](GUIA-DO-USUARIO.md)**.
+
+O sistema funciona de dois jeitos, com o mesmo código:
 
 - **Navegador:** um servidor NestJS serve a API e a interface Angular. Abra `http://localhost:3000`.
 - **Desktop (Windows):** um instalador `.exe` (Tauri) abre o painel numa janela própria e roda o
@@ -189,12 +194,12 @@ da API.
 
 ### Painel
 
-- O painel abre sempre no dia de hoje do computador e mostra **um dia por vez**. Dá para trocar
-  de dia pelas setas, pelo calendário ou pelo botão **Hoje**.
-- "Hoje" acompanha o relógio: se o painel ficar aberto de um dia para o outro, ele vira sozinho.
-- A lista é ordenada por data, horário e nome. Na ordem por nome os acentos são ignorados
+O passo a passo de uso está no [Guia do usuário](GUIA-DO-USUARIO.md). Aqui ficam as regras que o
+código implementa.
+
+- "Hoje" é a data do computador de quem usa, e acompanha o relógio: o painel vira de dia sozinho.
+- Um dia por vez na tabela. A lista é ordenada por data, horário e nome, ignorando acentos no nome
   ("Álvaro" vem antes de "Beatriz").
-- Etiquetas de data: **Hoje** e **Amanhã**. Avaliações que já passaram aparecem em cinza.
 - Indicadores:
   - **Avaliações de hoje:** as de hoje, menos as canceladas;
   - **Avaliações futuras:** as agendadas de amanhã em diante;
@@ -435,7 +440,8 @@ scripts/
   api.mjs            build da API com esbuild
   cliente.mjs        validação de marcas e build desktop
   cliente-config.mjs carregamento e validação do cliente.json
-docs/                guia de nova marca e LEIA-ME entregue com o instalador
+docs/                guia de nova marca, LEIA-ME entregue com o instalador e imagens
+GUIA-DO-USUARIO.md   manual de uso para a academia
 tests/               Vitest
 tests-navegador/     Playwright
 ```
