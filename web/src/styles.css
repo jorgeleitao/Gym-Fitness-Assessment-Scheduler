@@ -1,0 +1,144 @@
+@import "tailwindcss" source(none);
+@source "./";
+@import "@angular/cdk/overlay-prebuilt.css";
+
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
+/*
+ * As cores da marca (--marca-*) vêm do cliente.json, servidas pela API em /api/cliente/marca.css.
+ * Os valores abaixo são o padrão.
+ */
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+  --color-surface: var(--surface);
+  --color-marca-preto: var(--marca-preto);
+  --color-marca-barra: var(--marca-barra);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Marca */
+  --marca-primaria: oklch(0.5 0.235 264);
+  --marca-preto: oklch(0.16 0 0);
+  --marca-barra: var(--marca-preto);
+
+  --background: oklch(0.982 0.002 264);
+  --surface: oklch(0.962 0.003 264);
+  --foreground: var(--marca-preto);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--marca-preto);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--marca-preto);
+  --primary: var(--marca-primaria);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.95 0.03 264);
+  --secondary: oklch(0.962 0.003 264);
+  --secondary-foreground: var(--marca-preto);
+  --muted: oklch(0.962 0.003 264);
+  --muted-foreground: oklch(0.47 0.01 264);
+  --accent: oklch(0.95 0.03 264);
+  --accent-foreground: oklch(0.38 0.18 264);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.99 0.005 27);
+  --destructive-soft: oklch(0.96 0.03 27);
+  --whatsapp: oklch(0.56 0.15 150);
+  --whatsapp-foreground: oklch(0.99 0.005 150);
+  --border: oklch(0.91 0.004 264);
+  --input: oklch(0.87 0.005 264);
+  --ring: var(--marca-primaria);
+
+  --shadow-card: 0 1px 2px oklch(0.16 0 0 / 0.05);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
+  }
+  .btn-md { @apply h-9 px-4 py-2; }
+  .btn-lg { @apply h-11 rounded-lg px-5 text-[15px]; }
+  .btn-xl { @apply h-12 rounded-xl px-6 text-base [&_svg]:size-5; }
+  .btn-icone { @apply h-10 w-10 rounded-lg [&_svg]:size-[18px]; }
+
+  .btn-primario { @apply bg-primary font-semibold text-primary-foreground shadow-sm hover:bg-primary/90; }
+  .btn-whatsapp { @apply bg-whatsapp font-semibold text-whatsapp-foreground shadow-sm hover:bg-whatsapp/90; }
+  .btn-perigo { @apply bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90; }
+  .btn-perigo-fantasma { @apply text-muted-foreground hover:bg-destructive-soft hover:text-destructive; }
+  .btn-contorno { @apply border border-input bg-card shadow-sm hover:bg-accent hover:text-accent-foreground; }
+  .btn-fantasma { @apply hover:bg-accent hover:text-accent-foreground; }
+
+  .campo {
+    @apply flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
+  }
+  .campo[aria-invalid="true"] { @apply border-destructive; }
+
+  .etiqueta { @apply rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide; }
+
+  .menu {
+    @apply w-72 rounded-xl border bg-popover p-1.5 text-popover-foreground shadow-lg;
+  }
+  .menu-item {
+    @apply flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-2.5 text-left text-[15px] outline-none hover:bg-accent focus:bg-accent [&_svg]:size-4;
+  }
+}
+
+dialog.dialogo {
+  @apply m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border bg-background p-6 text-foreground shadow-lg;
+}
+dialog.dialogo::backdrop {
+  background: oklch(0 0 0 / 0.6);
+}

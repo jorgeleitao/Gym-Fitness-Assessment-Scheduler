@@ -1,0 +1,101 @@
+<div class="overflow-x-auto">
+  <table class="w-full min-w-[960px] text-left">
+    <thead>
+      <tr class="border-b text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <th class="px-6 py-3">Nome do cliente</th>
+        <th class="px-4 py-3">Data</th>
+        <th class="px-4 py-3">Horário</th>
+        <th class="px-4 py-3">WhatsApp</th>
+        <th class="px-4 py-3">Situação</th>
+        <th class="px-6 py-3 text-right">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (l of linhas(); track l.a.id) {
+        @if (l.grupo) {
+          <tr class="border-b bg-surface">
+            <td colspan="6" class="px-6 py-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">{{ l.grupo }}</td>
+          </tr>
+        }
+        <tr
+          data-testid="linha-avaliacao"
+          class="border-b transition-colors last:border-0 hover:bg-surface/60"
+          [class.text-muted-foreground]="l.passou || l.a.situacao === 'cancelada'"
+        >
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-2">
+              <span class="whitespace-nowrap font-semibold" [class.line-through]="l.a.situacao === 'cancelada'">{{ l.a.nome }}</span>
+              @switch (l.dia) {
+                @case ("hoje") { <span class="etiqueta bg-primary text-primary-foreground">Hoje</span> }
+                @case ("amanha") { <span class="etiqueta bg-primary-soft text-accent-foreground">Amanhã</span> }
+              }
+            </div>
+          </td>
+          <td class="px-4 py-4 tabular-nums">
+            <div>{{ l.data }}</div>
+            <div class="text-xs capitalize text-muted-foreground">{{ l.semana }}</div>
+          </td>
+          <td class="px-4 py-4 font-semibold tabular-nums">{{ l.a.horario }}</td>
+          <td class="whitespace-nowrap px-4 py-4 tabular-nums">{{ l.telefone }}</td>
+          <td class="px-4 py-4">
+            <select
+              #campo
+              data-testid="situacao"
+              class="h-9 w-40 cursor-pointer rounded-lg border px-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              [class]="l.estilo"
+              [value]="l.a.situacao"
+              [attr.aria-label]="'Situação da avaliação de ' + l.a.nome"
+              (change)="escolher(l.a, campo)"
+            >
+              <option value="agendada">{{ l.pendente ? "Marcar presença" : "Agendada" }}</option>
+              <option value="compareceu" [disabled]="l.futura">Compareceu</option>
+              <option value="faltou" [disabled]="l.futura">Faltou</option>
+              <option value="cancelada">Cancelada</option>
+              @if (l.a.situacao !== "compareceu") {
+                <option value="remarcar">Remarcar…</option>
+              }
+            </select>
+            @if (l.remarcada) {
+              <div class="mt-1 whitespace-nowrap text-xs text-muted-foreground">{{ l.remarcada }}</div>
+            }
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex items-center justify-end gap-1.5">
+              <span [attr.title]="l.semLembrete">
+                <button
+                  type="button"
+                  class="btn btn-md btn-whatsapp"
+                  [disabled]="!!l.semLembrete"
+                  [attr.aria-label]="'Enviar lembrete para ' + l.a.nome"
+                  (click)="lembrete.emit(l.a)"
+                >
+                  <svg appIconeWhatsapp></svg>
+                  Lembrete
+                </button>
+              </span>
+
+              <button
+                type="button"
+                class="btn btn-icone btn-fantasma"
+                title="Editar"
+                [attr.aria-label]="'Editar avaliação de ' + l.a.nome"
+                (click)="editar.emit(l.a)"
+              >
+                <svg lucidePencil></svg>
+              </button>
+              <button
+                type="button"
+                class="btn btn-icone btn-perigo-fantasma"
+                title="Excluir"
+                [attr.aria-label]="'Excluir avaliação de ' + l.a.nome"
+                (click)="excluir.emit(l.a)"
+              >
+                <svg lucideTrash></svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

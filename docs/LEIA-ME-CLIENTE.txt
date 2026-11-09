@@ -1,0 +1,94 @@
+{{nomeCurtoMaiusculo}} — PAINEL DE AVALIAÇÕES
+Guia rápido de uso
+=====================================================================
+
+1) COMO INSTALAR (RECOMENDADO)
+---------------------------------------------------------------------
+1. Copie do pendrive o arquivo da pasta "Instalador"
+   ({{instalador}}) para o computador.
+2. Dê dois cliques nele e siga as telas (Avançar > Instalar > Concluir).
+   Não é preciso ser administrador.
+3. O programa ganha um atalho na Área de Trabalho e no Menu Iniciar
+   chamado "{{produto}}". Depois de instalado, o pendrive não é
+   mais necessário.
+
+Se aparecer a tela azul "O Windows protegeu o computador":
+   isso acontece porque o programa não tem assinatura digital paga
+   (é um aviso normal para programas feitos sob medida).
+   Clique em "Mais informações" e depois em "Executar assim mesmo".
+   Faça isso somente com o arquivo recebido diretamente do
+   desenvolvedor.
+
+2) VERSÃO PORTÁTIL (SEM INSTALAR)
+---------------------------------------------------------------------
+1. Copie a pasta "{{executavel}}-Portatil" inteira para o computador
+   (por exemplo, para Documentos).
+2. Dê dois cliques em "{{executavel}}.exe".
+3. Para criar um atalho: clique com o botão direito no arquivo >
+   "Mostrar mais opções" > "Enviar para" > "Área de trabalho
+   (criar atalho)".
+
+Observação: o programa usa o "Microsoft Edge WebView2", que já vem no
+Windows 10 e 11 atualizados. Se a versão portátil não abrir, use o
+instalador: ele instala o WebView2 automaticamente (precisa de
+internet nesse momento).
+
+3) ONDE FICAM OS DADOS
+---------------------------------------------------------------------
+As avaliações ficam salvas neste computador, no arquivo:
+   C:\Users\<seu usuário>\AppData\Roaming\{{identificador}}\{{banco}}
+
+Esse arquivo NÃO fica no pendrive nem na pasta do programa. Por isso
+os dados continuam lá ao fechar o programa, reiniciar o computador,
+atualizar ou reinstalar o programa. Desinstalar o programa também não
+apaga os dados — desde que a opção "Remover dados do programa", que
+aparece na desinstalação, fique DESMARCADA (ela já vem desmarcada).
+
+Dentro do programa: botão "Backup" > "Onde ficam os dados?".
+
+4) BACKUP (CÓPIA DE SEGURANÇA) — FAÇA TODA SEMANA
+---------------------------------------------------------------------
+1. No programa, clique em "Backup" > "Fazer backup (baixar arquivo)".
+2. O arquivo é salvo na pasta Downloads do Windows, com um nome como:
+      {{prefixoBackup}}-2026-10-29_18-30-00.db
+   O nome tem a data e a hora; backups antigos não são apagados.
+3. Copie esse arquivo para um pendrive ou para a nuvem
+   (Google Drive, OneDrive). Backup que fica só no mesmo computador
+   não protege contra defeito no computador.
+
+5) RESTAURAR UM BACKUP
+---------------------------------------------------------------------
+Use quando trocar de computador ou se os dados se perderem.
+1. No programa, clique em "Backup" > "Restaurar backup".
+2. Escolha o arquivo {{prefixoBackup}}-....db.
+3. O programa confere se o arquivo é válido e mostra quantas
+   avaliações ele tem. Confirme em "Restaurar e substituir".
+4. ATENÇÃO: as avaliações atuais são substituídas pelas do backup.
+   Antes disso, o programa guarda automaticamente uma cópia dos dados
+   atuais na pasta:
+   C:\Users\<seu usuário>\AppData\Roaming\{{identificador}}\copias-de-seguranca
+   Se você se arrepender, basta restaurar esse arquivo.
+5. Se o arquivo for inválido, nada é alterado.
+
+6) LEMBRETE PELO WHATSAPP
+---------------------------------------------------------------------
+Clique em "Lembrete" na linha da avaliação. O WhatsApp (ou o
+WhatsApp Web, no navegador) abre com a mensagem pronta para aquele
+cliente. Confira a mensagem e clique em ENVIAR no WhatsApp.
+O programa não envia sozinho.
+Precisa de internet e de WhatsApp conectado no computador.
+Avaliações que já passaram, canceladas ou já marcadas não têm lembrete.
+
+7) O ALUNO VEIO? FALTOU? REMARCOU?
+---------------------------------------------------------------------
+Na linha de cada aluno, na coluna "Situação", escolha:
+   - Compareceu: o aluno fez a avaliação.
+   - Faltou: o aluno não veio.
+   - Remarcar: escolha a nova data e horário. A linha mostra de quando
+     a avaliação foi remarcada.
+   - Cancelada: a avaliação não vai acontecer.
+Compareceu e Faltou só podem ser marcados no dia ou depois.
+Avaliações que já passaram sem marcação aparecem com a etiqueta
+amarela "Marcar presença". Errou? Escolha "Agendada" de novo.
+O quadro "Comparecimento" mostra quantos alunos vieram nos últimos
+30 dias.

@@ -1,0 +1,154 @@
+<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+  <header class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm font-medium capitalize text-muted-foreground">{{ hojeExtenso() }}</p>
+      <h1 class="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">Painel de Avaliações</h1>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" class="btn btn-xl btn-primario flex-1 sm:flex-none" (click)="abrirNova()">
+        <svg lucidePlus></svg>
+        Nova Avaliação
+      </button>
+      <app-backup [totalAtual]="store.contadores()?.total ?? 0" (restaurado)="aoRestaurar()" />
+    </div>
+  </header>
+
+  @if (store.erro(); as erro) {
+    <div role="alert" class="mt-6 rounded-xl border border-destructive/30 bg-destructive-soft p-4 text-sm font-medium text-destructive">
+      Não foi possível ler os dados: {{ erro }} Se você tiver um backup, use “Backup → Restaurar backup”.
+    </div>
+  }
+
+  <section class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Resumo">
+    <app-stat-card rotulo="Avaliações de hoje" [valor]="store.contadores()?.hoje ?? null">
+      <svg lucideCalendarCheck></svg>
+    </app-stat-card>
+    <app-stat-card rotulo="Avaliações futuras" detalhe="A partir de amanhã" [valor]="store.contadores()?.futuras ?? null">
+      <svg lucideCalendarClock></svg>
+    </app-stat-card>
+    <app-stat-card rotulo="Comparecimento" [valor]="comparecimento().valor" [detalhe]="comparecimento().detalhe">
+      <svg lucideChartPie></svg>
+    </app-stat-card>
+  </section>
+
+  <section class="mt-8 rounded-2xl border bg-card shadow-[var(--shadow-card)]">
+    <div class="flex flex-col gap-4 border-b p-4 sm:p-6">
+      <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div class="flex flex-wrap items-center gap-2">
+          <app-seletor-data
+            [data]="store.dataSelecionada()"
+            [hoje]="store.hoje()"
+            [ativo]="store.visao().tipo === 'dia'"
+            (mudar)="store.escolherData($event)"
+          />
+          @if (store.dataSelecionada() !== store.hoje()) {
+            <button type="button" class="btn btn-md btn-fantasma h-11 rounded-xl" (click)="store.escolherData(store.hoje())">
+              Hoje
+            </button>
+          }
+        </div>
+        <div class="relative lg:w-80">
+          <svg lucideSearch class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"></svg>
+          <input
+            class="campo h-11 pl-10 pr-10 md:text-sm"
+            placeholder="Buscar nome ou telefone"
+            aria-label="Buscar por nome ou telefone"
+            [value]="store.busca()"
+            (input)="store.busca.set($any($event.target).value)"
+          />
+          @if (store.busca()) {
+            <button
+              type="button"
+              aria-label="Limpar busca"
+              class="absolute right-2 top-1/2 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+              (click)="store.busca.set('')"
+            >
+              <svg lucideX class="size-4"></svg>
+            </button>
+          }
+        </div>
+      </div>
+      <h2 class="text-lg font-bold">{{ titulo() }}</h2>
+    </div>
+
+    @if (!store.carregado()) {
+      <div class="space-y-3 p-6" aria-busy="true">
+        @for (i of [0, 1, 2]; track i) {
+          <div class="h-12 animate-pulse rounded-lg bg-surface"></div>
+        }
+      </div>
+    } @else if (store.itens().length > 0) {
+      <div [class.opacity-70]="store.atualizando()" class="transition-opacity">
+        <app-tabela
+          [itens]="store.itens()"
+          [hoje]="store.hoje()"
+          [agruparPorData]="store.visao().tipo === 'busca'"
+          (lembrete)="enviarLembrete($event)"
+          (editar)="abrirEdicao($event)"
+          (excluir)="paraExcluir.set($event)"
+          (situacao)="mudarSituacao($event)"
+          (remarcar)="paraRemarcar.set($event)"
+        />
+        <p class="border-t px-6 py-3 text-xs text-muted-foreground">{{ store.itens().length }} avaliação(ões)</p>
+      </div>
+    } @else if (store.visao().tipo === "busca") {
+      <div class="flex flex-col items-center px-6 py-16 text-center" data-testid="estado-vazio">
+        <div class="flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+          <svg lucideSearchX class="size-7"></svg>
+        </div>
+        <h3 class="mt-4 text-xl font-bold">Ninguém encontrado</h3>
+        <p class="mt-2 max-w-md text-muted-foreground">
+          Nenhum cliente com “{{ store.busca().trim() }}”. Confira o nome ou o telefone digitado.
+        </p>
+        <button type="button" class="btn btn-lg btn-contorno mt-6" (click)="store.busca.set('')">Limpar busca</button>
+      </div>
+    } @else if (vazio(); as v) {
+      <div class="flex flex-col items-center px-6 py-16 text-center" data-testid="estado-vazio">
+        <div class="flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+          <svg lucideClipboardList class="size-7"></svg>
+        </div>
+        <h3 class="mt-4 text-xl font-bold">{{ v.titulo }}</h3>
+        <p class="mt-2 max-w-md text-muted-foreground">{{ v.texto }}</p>
+        @if (podeCadastrarNoDia()) {
+          <button type="button" class="btn btn-xl btn-primario mt-6" (click)="abrirNova()">
+            <svg lucidePlus></svg>
+            Nova Avaliação
+          </button>
+        }
+      </div>
+    }
+  </section>
+
+  <p class="mt-6 text-center text-xs text-muted-foreground">
+    Os dados ficam salvos neste computador. Faça backups com frequência.
+  </p>
+</div>
+
+<app-formulario
+  [aberto]="formAberto()"
+  [avaliacao]="emEdicao()"
+  [dataPadrao]="dataPadrao()"
+  [salvar]="salvar"
+  (fechar)="fecharFormulario()"
+/>
+
+<app-remarcar
+  [avaliacao]="paraRemarcar()"
+  [hoje]="store.hoje()"
+  [remarcar]="confirmarRemarcacao"
+  (fechar)="paraRemarcar.set(null)"
+/>
+
+<app-confirmar
+  [aberto]="paraExcluir() !== null"
+  titulo="Excluir avaliação?"
+  textoConfirmar="Sim, excluir"
+  [perigoso]="true"
+  (confirmar)="confirmarExclusao()"
+  (cancelar)="paraExcluir.set(null)"
+>
+  @if (paraExcluir(); as a) {
+    A avaliação de <strong>{{ a.nome }}</strong> em {{ formatarData(a.data) }} às {{ a.horario }} será excluída. Essa ação
+    não pode ser desfeita.
+  }
+</app-confirmar>

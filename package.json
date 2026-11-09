@@ -1,0 +1,55 @@
+{
+  "name": "painel-avaliacoes",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "node scripts/api.mjs dev",
+    "dev:web": "ng serve",
+    "build": "ng build && node scripts/api.mjs build",
+    "start": "node dist/api/main.cjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "tipos:desktop": "cargo check --manifest-path src-tauri/Cargo.toml",
+    "tipos": "tsc -p api/tsconfig.json",
+    "cliente:validar": "node scripts/cliente.mjs validar",
+    "desktop:dev": "node scripts/cliente.mjs dev",
+    "desktop:build": "node scripts/cliente.mjs build"
+  },
+  "dependencies": {
+    "@angular/cdk": "^22.2.6",
+    "@angular/common": "^22.2.5",
+    "@angular/compiler": "^22.2.5",
+    "@angular/core": "^22.2.5",
+    "@angular/platform-browser": "^22.2.5",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
+    "@lucide/angular": "^1.70.0",
+    "@nestjs/common": "^11.2.9",
+    "@nestjs/core": "^11.2.9",
+    "@nestjs/platform-express": "^11.2.9",
+    "@nestjs/serve-static": "^5.0.5",
+    "helmet": "^8.3.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.6",
+    "@angular/cli": "^22.2.6",
+    "@angular/compiler-cli": "^22.2.5",
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@tauri-apps/cli": "~2.12.4",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.0.0",
+    "concurrently": "^10.0.7",
+    "esbuild": "^0.28.2",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

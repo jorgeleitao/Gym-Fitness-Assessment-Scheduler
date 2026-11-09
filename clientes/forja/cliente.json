@@ -1,0 +1,16 @@
+{
+  "nome": "Forja Academia",
+  "nomeCurto": "Forja",
+  "produto": "Forja Painel",
+  "executavel": "Forja-Painel",
+  "identificador": "br.com.forja.painel",
+  "banco": "forja.db",
+  "prefixoBackup": "forja-backup",
+  "versao": "1.0.0",
+  "logo": "logo.svg",
+  "icone": "icone.svg",
+  "cores": {
+    "primaria": "#f25c1f",
+    "barraTopo": "#16161d"
+  }
+}

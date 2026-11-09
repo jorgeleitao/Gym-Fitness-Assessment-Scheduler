@@ -1,0 +1,12 @@
+node_modules
+dist
+src-tauri/target
+src-tauri/gen
+distribuicao
+*.log
+src-tauri/clientes-gerado
+playwright-report
+test-results
+dados
+.angular
+src-tauri/binarios
